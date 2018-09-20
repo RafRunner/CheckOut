@@ -1,7 +1,9 @@
 package backEnd;
 
+import java.math.BigDecimal;
+
 public interface Promocao {
 
-	public double getDesconto(int nProdutos);
+	public BigDecimal getDesconto(int nProdutos);
 	public Promocao getTipo();
 }

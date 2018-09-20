@@ -1,44 +1,50 @@
 package backEnd;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class Produto {
 
+	private int id;
 	private String  nome;
-	private double valorUnitario;
+	private BigDecimal valorUnitario;
 	private ArrayList<Promocao> promocoes = new ArrayList<Promocao>();
 
-	public Produto(String nome, double valorUnitario,  ArrayList<Promocao> promocoes) 
+	public Produto(int id, String nome, BigDecimal valorUnitario,  ArrayList<Promocao> promocoes) 
+	{
+		this.id = id;
+		this.valorUnitario = valorUnitario;
+		this.nome = nome;
+		this.promocoes = promocoes;
+	}
+	
+	public Produto(String nome, BigDecimal valorUnitario,  ArrayList<Promocao> promocoes) 
 	{
 		this.valorUnitario = valorUnitario;
 		this.nome = nome;
 		this.promocoes = promocoes;
 	}
 	
-	public Produto(String nome, double valorUnitario, Promocao promocao) 
+	public Produto(int id, String nome, BigDecimal valorUnitario, Promocao promocao) 
 	{
+		this.id = id;
 		this.valorUnitario = valorUnitario;
 		this.nome = nome;
 		if(promocao != null) {
 			this.promocoes.add(promocao);
 		}
 	}
-	
-	//Construtor temporário para o emum(simulação do banco de dados)
-	public Produto(Produtos nome) 
-	{
-		this.nome = nome.getNome();
-		this.valorUnitario = nome.getValorUnitario();
-		if(nome.getPromocao() != null) {
-			this.promocoes.add(nome.getPromocao());
-		}
-	}
 
+	public int getId()
+	{
+		return id;
+	}
+	
 	public String getNome()
 	{
 		return nome;
 	}
 	
-	public double getValor()
+	public BigDecimal getValor()
 	{
 		return valorUnitario;
 	}
@@ -46,5 +52,12 @@ public class Produto {
 	public  ArrayList<Promocao> getPromocoes() 
 	{
 		return promocoes;
+	}
+	
+	public String toString()
+	{
+		return "id = " + id
+				+ "\nnome = " + nome
+				+ "\nvalor unitario = " + valorUnitario;
 	}
 }

@@ -1,15 +1,18 @@
 package backEnd;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class Caixa {
 
 	private ArrayList<Item> listaItens;
-	private double preco;
-	private double desconto;
+	private BigDecimal preco;
+	private BigDecimal desconto;
 	
 	public Caixa(ArrayList<Produto> produtos) 
 	{
 		listaItens = new ArrayList<Item>();
+		preco = new BigDecimal("0");
+		desconto = new BigDecimal("0");
 		
 		for(Produto produto : produtos) {
 			listaItens.add(new Item(produto));
@@ -38,40 +41,40 @@ public class Caixa {
 		}
 	}
 	
-	public double getPreco () 
+	public BigDecimal getPreco () 
 	{
-		preco = 0;
+		preco = new BigDecimal("0");
 		for(Item item : listaItens) {
-			preco += item.getProduto().getValor() * item.getN();
+			preco.add(item.getProduto().getValor().multiply(BigDecimal.valueOf(item.getN())));
 		}
 		return preco;
 	}
 	
-	public double getDesconto () 
+	public BigDecimal getDesconto () 
 	{
-		desconto = 0;
+		desconto = new BigDecimal("0");
 		for(Item item : listaItens) {
 			
-			double maiorDesconto = 0;
+			BigDecimal maiorDesconto = new BigDecimal("0");
 			
 			if(item.getProduto().getPromocoes() != null) {
 			
 				for(Promocao promocao : item.getProduto().getPromocoes()) {
 				
-					if(promocao.getDesconto(item.getN()) > maiorDesconto) {
+					if(promocao.getDesconto(item.getN()).compareTo(maiorDesconto) == 1) {
 						maiorDesconto = promocao.getDesconto(item.getN());
 					}
 				}
-				desconto += maiorDesconto;
+				desconto.add(maiorDesconto);
 			}
 			
 		}
 		return desconto;
 	}
 	
-	public double getPrecoTotal() 
+	public BigDecimal getPrecoTotal() 
 	{
-		return getPreco() - getDesconto();
+		return getPreco().subtract(getDesconto());
 	}
 	
 	public String toString() 

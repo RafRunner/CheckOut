@@ -1,12 +1,14 @@
 package backEnd;
 
+import java.math.BigDecimal;
+
 public class PagueXPorY implements Promocao {
 
-	private double valorUnitario;
+	private BigDecimal valorUnitario;
 	private int y;
-	private double x;
+	private BigDecimal x;
 
-	public PagueXPorY(double valorUnitario, double x, int y) 
+	public PagueXPorY(BigDecimal valorUnitario, BigDecimal x, int y) 
 	{
 		this.valorUnitario = valorUnitario;
 		this.y = y;
@@ -14,10 +16,10 @@ public class PagueXPorY implements Promocao {
 	}
 
 	@Override
-	public double getDesconto(int nProdutos) 
+	public BigDecimal getDesconto(int nProdutos) 
 	{
 		int vezesDesconto = nProdutos / y;
-		return vezesDesconto * ((valorUnitario * y) - x);
+		return (valorUnitario.multiply(BigDecimal.valueOf(y)).subtract(x)).multiply(BigDecimal.valueOf(vezesDesconto));
 	}
 
 	@Override
@@ -25,5 +27,4 @@ public class PagueXPorY implements Promocao {
 	{
 		return this;
 	}
-
 }
