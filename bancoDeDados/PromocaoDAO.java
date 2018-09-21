@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import backEnd.EPromocoes;
 import backEnd.LeveXPagueY;
 import backEnd.PagueXPorY;
 import backEnd.Produto;
@@ -14,7 +15,7 @@ import backEnd.Promocao;
 
 public class PromocaoDAO {
 
-	private static final String SELECT_PROMOCOES = "SELECT TIPO, QUANTIDADE_ATIVACAO, VALOR_DESCONTO"
+	private static final String SELECT_PROMOCOES = "SELECT TIPO, QUANTIDADE_ATIVACAO, VALOR_DESCONTO "
 			+ "FROM promocoes WHERE FK_PRODUTO = ?";
 	
 	private static final String INSERT_PROMOCAO = "INSERT INTO promocoes "
@@ -22,10 +23,10 @@ public class PromocaoDAO {
 			+ "VALUES (?, ?, ?, ?)";
 	
 	private static final String UPDATE_PROMOCAO = "UPDATE promocoes SET VALOR_DESCONTO = ? "
-			+ "WHERE TIPO = ?, QUANTIDADE_ATIVACAO = ?, FK_PRODUTO = ?";
+			+ "WHERE TIPO = ? and QUANTIDADE_ATIVACAO = ? and FK_PRODUTO = ?";
 	
-	private static final String DELETE_PROMOCAO = "DELET FROM promocoes "
-			+ "WHERE TIPO = ?, QUANTIDADE_ATIVACAO = ?, FK_PRODUTO = ?";
+	private static final String DELETE_PROMOCAO = "DELETE FROM promocoes "
+			+ "WHERE TIPO = ? and QUANTIDADE_ATIVACAO = ? and FK_PRODUTO = ?";
 	
 	public static ArrayList<Promocao> getPromocoes(Produto produto)
 	{
@@ -41,9 +42,8 @@ public class PromocaoDAO {
 				String tipo = resultado.getString("TIPO");
 				int quantidadeAtivacao = resultado.getInt("QUANTIDADE_ATIVACAO");
 				BigDecimal valorDesconto = resultado.getBigDecimal("VALOR_DESCONTO");
-				int fkProduto = resultado.getInt("FKPRODUTO");
 				
-				if(tipo == "LeveXPagueY") {
+				if(tipo == EPromocoes.LEVE_X_PAGUE_Y.getNome()) {
 					promocoes.add(new LeveXPagueY(produto.getValor(), quantidadeAtivacao, valorDesconto.intValue()));
 				}
 				else {

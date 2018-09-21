@@ -14,6 +14,8 @@ public class ProdutoDAO {
 
 	private static final String SELECT_PRODUTO = "SELECT NOME, VALOR_UNITARIO FROM produtos WHERE IDENTIFICADOR = ?";
 	
+	private static final String GET_PRODUTOS = "SELECT NOME, VALOR_UNITARIO, IDENTIFICADOR FROM produtos";
+	
 	private static final String INSERT_PRODUTO = "INSERT INTO produtos (NOME, VALOR_UNITARIO, IDENTIFICADOR)"
 			+ "VALUES (?, ?, ?)";
 	
@@ -21,7 +23,7 @@ public class ProdutoDAO {
 	
 	private static final String DELETE_PRODUTO = "DELETE FROM produtos WHERE IDENTIFICADOR = ?";
 	
-	public static Produto getProduto(int identificador) throws SQLException 
+	public static Produto getProduto(int identificador)
 	{
 		Produto produto = null;
 		
@@ -33,9 +35,11 @@ public class ProdutoDAO {
 			
 			if(resultado.next()) {
 				String nome = resultado.getString("NOME");
-				BigDecimal valorUnitario = resultado.getBigDecimal("VALOR_UNITARIO");	
+				BigDecimal valorUnitario = resultado.getBigDecimal("VALOR_UNITARIO");
 				
 				produto = new Produto(identificador, nome, valorUnitario, new ArrayList<Promocao>());
+				ArrayList<Promocao> promocoes = PromocaoDAO.getPromocoes(produto);
+				produto.setPromocoes(promocoes);
 			}
 			else {
 				System.out.println("Produto não encontrado!");
@@ -45,6 +49,35 @@ public class ProdutoDAO {
 			e.printStackTrace();
 		}
 		return produto;
+	}
+	
+	public static ArrayList<Produto> getProdutos()
+	{
+		ArrayList<Produto> produtos = new ArrayList<Produto>();
+		
+		try (Connection conexao = FabricaConexao.getConection();
+			PreparedStatement consulta = conexao.prepareStatement(GET_PRODUTOS)){
+			
+			ResultSet resultado = consulta.executeQuery();
+			
+			if(resultado.next()) {
+				String nome = resultado.getString("NOME");
+				BigDecimal valorUnitario = resultado.getBigDecimal("VALOR_UNITARIO");
+				int identificador = resultado.getInt("IDENTIFICADOR");
+				
+				Produto produto = new Produto(identificador, nome, valorUnitario, new ArrayList<Promocao>());
+				ArrayList<Promocao> promocoes = PromocaoDAO.getPromocoes(produto);
+				produto.setPromocoes(promocoes);
+				produtos.add(produto);
+			}
+			else {
+				System.out.println("Produto não encontrado!");
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return produtos;
 	}
 	
 	public static void inserirProduto(Produto produto)
