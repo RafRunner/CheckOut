@@ -22,8 +22,15 @@ public class LeveXPagueY implements Promocao {
 	}
 
 	@Override
-	public Promocao getTipo() 
+	public String getTipo() 
 	{
-		return this;
+		return "LeveXPagueY";
+	}
+	
+	public String toString()
+	{
+		return "tipo: " + getTipo()
+				+ "\nquantidade ativação: " + x
+				+ "\nvalor desconto: " + y + "\n";
 	}
 }

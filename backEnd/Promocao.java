@@ -5,5 +5,5 @@ import java.math.BigDecimal;
 public interface Promocao {
 
 	public BigDecimal getDesconto(int nProdutos);
-	public Promocao getTipo();
+	public String getTipo();
 }

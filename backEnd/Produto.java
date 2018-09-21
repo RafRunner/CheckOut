@@ -4,29 +4,22 @@ import java.util.ArrayList;
 
 public class Produto {
 
-	private int id;
+	private int identificador;
 	private String  nome;
 	private BigDecimal valorUnitario;
 	private ArrayList<Promocao> promocoes = new ArrayList<Promocao>();
 
-	public Produto(int id, String nome, BigDecimal valorUnitario,  ArrayList<Promocao> promocoes) 
+	public Produto(int identificador, String nome, BigDecimal valorUnitario,  ArrayList<Promocao> promocoes) 
 	{
-		this.id = id;
+		this.identificador = identificador;
 		this.valorUnitario = valorUnitario;
 		this.nome = nome;
 		this.promocoes = promocoes;
 	}
 	
-	public Produto(String nome, BigDecimal valorUnitario,  ArrayList<Promocao> promocoes) 
+	public Produto(int identificador, String nome, BigDecimal valorUnitario, Promocao promocao) 
 	{
-		this.valorUnitario = valorUnitario;
-		this.nome = nome;
-		this.promocoes = promocoes;
-	}
-	
-	public Produto(int id, String nome, BigDecimal valorUnitario, Promocao promocao) 
-	{
-		this.id = id;
+		this.identificador = identificador;
 		this.valorUnitario = valorUnitario;
 		this.nome = nome;
 		if(promocao != null) {
@@ -36,7 +29,7 @@ public class Produto {
 
 	public int getId()
 	{
-		return id;
+		return identificador;
 	}
 	
 	public String getNome()
@@ -54,10 +47,28 @@ public class Produto {
 		return promocoes;
 	}
 	
+	public void setPromocoes(ArrayList<Promocao> promocoes)
+	{
+		this.promocoes = promocoes;
+	}
+	
+	public void adicionarPromocao(Promocao promocao)
+	{
+		promocoes.add(promocao);
+	}
+	
 	public String toString()
 	{
-		return "id = " + id
+		StringBuilder string = new StringBuilder("identificador = " + identificador
 				+ "\nnome = " + nome
-				+ "\nvalor unitario = " + valorUnitario;
+				+ "\nvalor unitario = " + valorUnitario + "\nPromoções:\n");
+		
+		if(promocoes != null) {
+			for(Promocao promocao : promocoes) {
+				string.append(promocao.toString());
+			}
+		}
+		
+		return string.toString();
 	}
 }

@@ -23,8 +23,15 @@ public class PagueXPorY implements Promocao {
 	}
 
 	@Override
-	public Promocao getTipo() 
+	public String getTipo() 
 	{
-		return this;
+		return "PagueXPorY";
+	}
+	
+	public String toString()
+	{
+		return "tipo: " + getTipo()
+				+ "\nquantidade ativação: " + y
+				+ "\nvalor desconto: " + x + "\n";
 	}
 }
