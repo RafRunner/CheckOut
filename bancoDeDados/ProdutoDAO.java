@@ -12,30 +12,30 @@ import backEnd.Promocao;
 
 public class ProdutoDAO {
 
-	private static final String SELECT_PRODUTO = "SELECT id, VALOR_UNITARIO FROM produtos WHERE NOME = ?";
+	private static final String SELECT_PRODUTO = "SELECT NOME, VALOR_UNITARIO FROM produtos WHERE IDENTIFICADOR = ?";
 	
-	private static final String INSERT_PRODUTO = "INSERT INTO produtos (NOME, VALOR_UNITARIO)"
-			+ "VALUES (?, ?)";
+	private static final String INSERT_PRODUTO = "INSERT INTO produtos (NOME, VALOR_UNITARIO, IDENTIFICADOR)"
+			+ "VALUES (?, ?, ?)";
 	
-	private static final String UPDATE_PRODUTO = "UPDATE produtos SET VALOR_UNITARIO = ? WHERE NOME = ?";
+	private static final String UPDATE_PRODUTO = "UPDATE produtos SET VALOR_UNITARIO = ? WHERE IDENTIFICADOR = ?";
 	
-	private static final String DELETE_PRODUTO = "DELETE FROM produtos WHERE NOME = ?";
+	private static final String DELETE_PRODUTO = "DELETE FROM produtos WHERE IDENTIFICADOR = ?";
 	
-	public static Produto getProduto(String nome) throws SQLException 
+	public static Produto getProduto(int identificador) throws SQLException 
 	{
 		Produto produto = null;
 		
 		try (Connection conexao = FabricaConexao.getConection();
 			PreparedStatement consulta = conexao.prepareStatement(SELECT_PRODUTO)){
 			
-			consulta.setString(1, nome);
+			consulta.setInt(1, identificador);
 			ResultSet resultado = consulta.executeQuery();
 			
 			if(resultado.next()) {
-				int id = resultado.getInt("id");
+				String nome = resultado.getString("NOME");
 				BigDecimal valorUnitario = resultado.getBigDecimal("VALOR_UNITARIO");	
 				
-				produto = new Produto(id, nome, valorUnitario, new ArrayList<Promocao>());
+				produto = new Produto(identificador, nome, valorUnitario, new ArrayList<Promocao>());
 			}
 			else {
 				System.out.println("Produto não encontrado!");
@@ -54,6 +54,7 @@ public class ProdutoDAO {
 			
 			insercao.setString(1, produto.getNome());
 			insercao.setBigDecimal(2, produto.getValor());
+			insercao.setInt(3, produto.getId());
 			insercao.executeUpdate();
 		}
 		catch(SQLException e) {
@@ -67,7 +68,7 @@ public class ProdutoDAO {
 			PreparedStatement alteracao = conexao.prepareStatement(UPDATE_PRODUTO)){
 			
 			alteracao.setBigDecimal(1, novoValor);
-			alteracao.setString(2, produto.getNome());
+			alteracao.setInt(2, produto.getId());
 			alteracao.execute();
 		}
 			catch(SQLException e) {
@@ -78,10 +79,10 @@ public class ProdutoDAO {
 	public static void removerProduto(Produto produto)
 	{
 		try (Connection conexao = FabricaConexao.getConection();
-			PreparedStatement deletar = conexao.prepareStatement(DELETE_PRODUTO)){
+			PreparedStatement remocao = conexao.prepareStatement(DELETE_PRODUTO)){
 			
-			deletar.setString(1, produto.getNome());
-			deletar.executeUpdate();
+			remocao.setInt(1, produto.getId());
+			remocao.executeUpdate();
 		}
 		catch(SQLException e) {
 			System.out.println(e.getMessage());
