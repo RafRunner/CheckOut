@@ -27,10 +27,30 @@ public class LeveXPagueY implements Promocao {
 		return "LeveXPagueY";
 	}
 	
+	@Override
 	public String toString()
 	{
 		return "tipo: " + getTipo()
 				+ "\nquantidade ativação: " + x
 				+ "\nvalor desconto: " + y + "\n";
+	}
+
+	@Override
+	public void setValorUnitario(BigDecimal valorUnitario) 
+	{
+		this.valorUnitario = valorUnitario;
+		
+	}
+
+	@Override
+	public int getQuantidadeAtivacao() 
+	{
+		return x;
+	}
+
+	@Override
+	public BigDecimal getValorDesconto() 
+	{
+		return new BigDecimal(y);
 	}
 }

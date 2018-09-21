@@ -22,11 +22,6 @@ public class Item {
 			n--;
 		}
 	}
-
-	public String getNome()
-	{
-		return produto.getNome();
-	}
 	
 	public Produto getProduto() 
 	{

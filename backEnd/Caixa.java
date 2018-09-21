@@ -19,10 +19,10 @@ public class Caixa {
 		}
 	}
 	
-	public void adicionaProduto (String nome) 
+	public void adicionaProduto (int id) 
 	{
 		for(int i = 0; i < listaItens.size(); i++) {
-			if(listaItens.get(i).getNome().equals(nome)) {
+			if(listaItens.get(i).getProduto().getId() == id) {
 			
 				listaItens.get(i).addProduto();
 				
@@ -30,10 +30,10 @@ public class Caixa {
 		}
 	}
 	
-	public void removeProduto (String nome) 
+	public void removeProduto (int id) 
 	{
 		for(int i = 0; i < listaItens.size(); i++) {
-			if(listaItens.get(i).getNome().equals(nome)) {
+			if(listaItens.get(i).getProduto().getId() == id) {
 			
 				listaItens.get(i).rmProduto();
 				
@@ -81,7 +81,7 @@ public class Caixa {
 	{
 		StringBuilder string = new StringBuilder();
 		for(Item item : listaItens) {
-			string.append(item.getNome() + ", " +  item.getN() + "\n");
+			string.append(item.getN() + " x " + item.getProduto().toString() + "\n");
 		}
 		return string.toString();
 	}

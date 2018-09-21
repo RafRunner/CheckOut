@@ -28,10 +28,30 @@ public class PagueXPorY implements Promocao {
 		return "PagueXPorY";
 	}
 	
+	@Override
 	public String toString()
 	{
 		return "tipo: " + getTipo()
 				+ "\nquantidade ativação: " + y
 				+ "\nvalor desconto: " + x + "\n";
+	}
+	
+	@Override
+	public void setValorUnitario(BigDecimal valorUnitario) 
+	{
+		this.valorUnitario = valorUnitario;
+		
+	}
+
+	@Override
+	public int getQuantidadeAtivacao() 
+	{
+		return y;
+	}
+
+	@Override
+	public BigDecimal getValorDesconto() 
+	{
+		return x;
 	}
 }
