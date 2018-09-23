@@ -21,12 +21,17 @@ public class CaixaDAO {
 
 	public void adicionaProduto (int id, int quantidade) 
 	{	
-		caixa.adicionaProduto(ProdutoDAO.getProduto(id), quantidade);
+		if(caixa.verificaExistencia(id)) {
+			caixa.adicionaProduto(caixa.getProduto(id), quantidade);
+		}
+		else {
+			caixa.adicionaProduto(ProdutoDAO.getProduto(id), quantidade);
+		}
 	}
 	
 	public void removeProduto (int id, int quantidade) 
 	{
-		caixa.removeProduto(ProdutoDAO.getProduto(id), quantidade);
+		caixa.removeProduto(caixa.getProduto(id), quantidade);
 	}
 	
 	public void limparCaixa()
