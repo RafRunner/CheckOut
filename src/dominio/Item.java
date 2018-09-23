@@ -13,9 +13,14 @@ public class Item {
 		this.n = 0;
 	}
 	
-	public Produto getProduto() 
+	public Produto getProduto()
 	{
 		return produto;
+	}
+	
+	public int getId()
+	{
+		return produto.getId();
 	}
 
 	public int getN() 
@@ -54,5 +59,11 @@ public class Item {
 			}
 		}
 		return maiorDesconto;
+	}
+	
+	@Override
+	public String toString()
+	{
+		return n + " x " + produto.toString() + "\n";
 	}
 }

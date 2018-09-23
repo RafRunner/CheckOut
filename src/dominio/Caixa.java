@@ -29,7 +29,7 @@ public class Caixa {
 	public boolean verificaExistencia(int id)
 	{
 		for(Item item : listaItens) {
-			if(item.getProduto().getId() == id) {
+			if(item.getId() == id) {
 				return true;
 			}
 		}
@@ -43,7 +43,7 @@ public class Caixa {
 		}
 		for(int i = 0; i < listaItens.size(); i++) {
 			
-			if(listaItens.get(i).getProduto().getId() == produto.getId()) {
+			if(listaItens.get(i).getId() == produto.getId()) {
 				listaItens.get(i).addN(quantidade);
 				
 			}
@@ -56,7 +56,7 @@ public class Caixa {
 		
 			for(int i = 0; i < listaItens.size(); i++) {
 				
-				if(listaItens.get(i).getProduto().getId() == produto.getId()) {
+				if(listaItens.get(i).getId() == produto.getId()) {
 					listaItens.get(i).removeN(quantidade);
 				}
 				if(listaItens.get(i).getN() == 0) {
@@ -89,18 +89,29 @@ public class Caixa {
 		return getPreco().subtract(getDesconto());
 	}
 	
+	public Produto getProduto(int id)
+	{
+		Produto produto = null;
+		
+		for(Item item : listaItens) {
+			if(item.getId() == id) {
+				return item.getProduto();
+			}
+		}
+		
+		return produto;
+	}
+	
 	public String toString() 
 	{
 		StringBuilder string = new StringBuilder();
 		for(Item item : listaItens) {
-			if(item.getN() != 0) {
-				string.append(item.getN() + " x " + item.getProduto().toString() + "\n");
-			}
+				string.append(item.toString());
 		}
 		
 		string.append("Total sem desconto: " + getPreco()
 					+ "\nDesconto: " + getDesconto()
-					+ "\nPreco a ser pago: " + getPrecoTotal() + "\n");
+					+ "\nPreço a ser pago: " + getPrecoTotal() + "\n");
 		return string.toString();
 	}
 }
